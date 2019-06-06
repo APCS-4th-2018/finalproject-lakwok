@@ -74,9 +74,11 @@ public class Bullet
     */
     public void update()
     {
+        // Update x and y position based on direction
         x += Math.cos(direction) * speed;
         y += Math.sin(direction) * speed;
 
+        // Check if the bullet hits a monster, damage monster hit if so
         for (Monster m : allMonsters)
         {
             if (this.getBounds().intersects(m.getHitBox()))
@@ -86,6 +88,7 @@ public class Bullet
             }
         }
 
+        // Remove bullets that fly too far
         if ((x < -5000 || x > 5000) || (y < -5000 || y > 5000))
             visible = false;
     }
@@ -96,15 +99,15 @@ public class Bullet
     */
     public void launch(double charx, double chary, MouseEvent event)
     {
-        System.out.println("Event X: " + event.getX() + " Event Y: " + event.getY());
-
         visible = true;
 
+        // Calculate theta in radians based on mouse position
         double diffx = event.getX() - charx;
         double diffy = event.getY() - chary;
 
         direction =  Math.atan2(diffy, diffx);
 
+        // Add all current monsters to list of monsters
         for (BSPLeaf leaf : bspTree.getRoot().getLeaves())
         {
             if (leaf.getRoom() instanceof MonsterRoom)
