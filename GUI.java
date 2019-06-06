@@ -69,7 +69,7 @@ public class GUI extends Application
         GraphicsContext gc = charLayer.getGraphicsContext2D();
 
         gc.setFill(Color.AQUAMARINE);
-        gc.fillRect(mc.getX(), mc.getY(), 32, 32);
+        gc.fillRect(mc.getX(), mc.getY(), 16, 16);
 
         dungeonScene.setOnKeyPressed(new EventHandler<KeyEvent>()
         {

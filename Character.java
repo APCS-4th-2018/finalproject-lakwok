@@ -81,7 +81,7 @@ public class Character extends Movable
                     y -= delta;
                 break;
             case 'S':
-                if (map[(int)(y + delta - Room.TILE_WIDTH) / Room.TILE_WIDTH][(int)x / Room.TILE_WIDTH] != -3)
+                if (map[(int)(y + delta + Room.TILE_WIDTH - 3) / Room.TILE_WIDTH][(int)x / Room.TILE_WIDTH] != -3)
                     y += delta;
                 break;
             case 'W':
@@ -89,7 +89,7 @@ public class Character extends Movable
                     x -= delta;
                 break;
             case 'E':
-                if (map[(int)y / Room.TILE_WIDTH][(int)(x + delta - Room.TILE_WIDTH) / Room.TILE_WIDTH] != -3)
+                if (map[(int)y / Room.TILE_WIDTH][(int)(x + delta + Room.TILE_WIDTH - 3) / Room.TILE_WIDTH] != -3)
                     x += delta;
                 break;
             default:

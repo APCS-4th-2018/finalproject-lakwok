@@ -2,7 +2,7 @@ import java.awt.*;
 
 public class Room
 {
-    public final static int TILE_WIDTH = 32;
+    public final static int TILE_WIDTH = 16;
     private final int PADDING = 2;
 
     private int x, y, w, h;
