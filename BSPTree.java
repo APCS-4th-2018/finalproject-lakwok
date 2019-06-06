@@ -77,7 +77,7 @@ public class BSPTree
         // Place floor tiles
         for (BSPLeaf leaf : root.getLeaves())
         {
-            Room temp = new Room(leaf);
+            Room temp = new MonsterRoom(leaf, 5);
             leaf.setRoom(temp);
 
             ExtraTools.fillSector(tileMap, -1, temp.getX(), temp.getX() + temp.getW(), temp.getY(), temp.getY() + temp.getH());
