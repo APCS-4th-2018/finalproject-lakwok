@@ -8,7 +8,7 @@ import javafx.stage.Stage;
 
 public class GUI extends Application
 {
-    private final static int TILE_WIDTH = 32;
+    private final static int TILE_WIDTH = 16;
 
     @Override
     public void start(Stage stage)
@@ -17,11 +17,12 @@ public class GUI extends Application
         tree.loadMap();
 
         Group g = new Group();
+        Canvas canvas = drawDungeon(tree, 0);
+        g.getChildren().addAll(canvas);
+
         Scene scene = new Scene(g, 800, 800);
 
-        Canvas canvas = drawDungeon(tree, 0);
-
-        g.getChildren().addAll(canvas);
+        stage.setScene(scene);
 
         stage.show();
     }
