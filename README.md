@@ -12,3 +12,6 @@ Sources used for projectiles and collision:
 > * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/atan2
 > * http://www.kilobolt.com/day-7-shooting-bullets/unit-2-day-7-shooting-bullets
 > * https://stackoverflow.com/questions/28656799/java-game-shooting-bullets
+
+Sources used for monster tracking:
+> * https://stackoverflow.com/questions/31114406/javafx-circle-must-follow-cursor
