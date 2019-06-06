@@ -32,12 +32,12 @@ public class ExtraTools
 
     private static Integer maxConsecTile(int[][] map, Room rm, char direction)
     {
-        // Variables
+        // Room dimensions
         int roomX = rm.getX(), roomY = rm.getY(), roomW= rm.getW(), roomH = rm.getH();
 
         int low = 0, high = 0, axis = 0;
 
-        // Seitch Case, switching on direction
+        // Switch case to establish bounds for checking based on orientation
         switch (direction)
         {
             case 'N':
@@ -66,37 +66,43 @@ public class ExtraTools
 
         int maxConsec = 0;
 
-        // loop until max
+        // Loop from low to high, counting maximum consecutive length of hallways
         for (int i = low; i <= high; i++)
         {
             if (direction == 'N' || direction == 'S')
             {
+                // If hallway
                 if (map[axis][i] == -2)
                 {
                     int consec = 1;
 
+                    // Find consecutive hallways horizontally
                     while (i < high - 1 && map[axis][i + 1] == -2)
                     {
                         consec++;
                         i++;
                     }
 
+                    // If new maximum, reset
                     if (consec > maxConsec)
                         maxConsec = consec;
                 }
             }
             else
             {
+                // hallway
                 if (map[i][axis] == -2)
                 {
                     int consec = 1;
 
+                    // Find consecutive hallways vertically
                     while (i < high - 1 && map[i + 1][axis] == -2)
                     {
                         consec++;
                         i++;
                     }
 
+                    // If new maximum, reset
                     if (consec > maxConsec)
                         maxConsec = consec;
                 }
