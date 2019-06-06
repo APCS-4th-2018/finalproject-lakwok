@@ -79,24 +79,27 @@ public class BSPTree
         placeRooms(); // Generate rooms
 
         adjustMap(3); // adjust map according to hallway width
-        placeWalls();
+        placeWalls(); // Place walls
 
-        placeSpecial();
+        placeSpecial(); // Place special tiles
 
     }
 
     private void placeHallways(BSPLeaf leaf)
     {
+        // If leaf has both left and right nodes
         if (leaf.getLeft() != null && leaf.getRight() != null)
         {
             Point leftCenter = leaf.getLeft().getCenter(), rightCenter = leaf.getRight().getCenter();
 
             int lCenterX = (int)leftCenter.getX(), lCenterY = (int)leftCenter.getY(), rCenterX = (int)rightCenter.getX(), rCenterY = (int)rightCenter.getY();
 
-            // fills sectors appropriately
+            // If split vertically
             if (lCenterX == rCenterX)
+                // Connect centers vertically
                 ExtraTools.fillSector(tileMap, -2, lCenterX - 1, lCenterX + 2, lCenterY, rCenterY);
             else
+                // Connect centers horizontally
                 ExtraTools.fillSector(tileMap, -2, lCenterX, rCenterX, lCenterY - 1, lCenterY + 2);
 
             // recursive calls
@@ -131,10 +134,10 @@ public class BSPTree
             for (BSPLeaf leaf : root.getLeaves()) {
                 Room leafRoom = leaf.getRoom(); // set leafRoom to room in leaf
 
-                // array for wall
+                // array to store hallway tile counts on each side
                 int[] wallCounts = ExtraTools.getRoomSurroundings(tileMap, leafRoom);
 
-                // if position is greater than 2 times hallwayWidth
+                // if hallways on north side greater than 2 times hallwayWidth
                 if (wallCounts[0] > 2 * hallwayWidth)
                 {
                     ExtraTools.fillSector(tileMap, -1, leafRoom.getX(), leafRoom.getX() + leafRoom.getW(), leafRoom.getY() - 1, leafRoom.getY());
@@ -142,21 +145,21 @@ public class BSPTree
                     leafRoom.setH(leafRoom.getH() + 1);
                 }
 
-                // if position is greater than 2 times hallwayWidth
+                // if hallways on east side greater than 2 times hallwayWidth
                 if (wallCounts[1] > 2 * hallwayWidth)
                 {
                     ExtraTools.fillSector(tileMap, -1, leafRoom.getX() + leafRoom.getW(), leafRoom.getX() + leafRoom.getW() + 1, leafRoom.getY(), leafRoom.getY() + leafRoom.getH());
                     leafRoom.setW(leafRoom.getW() + 1);
                 }
 
-                // if position is greater than 2 times hallwayWidth
+                // if hallways on south side greater than 2 times hallwayWidth
                 if (wallCounts[2] > 2 * hallwayWidth)
                 {
                     ExtraTools.fillSector(tileMap, -1, leafRoom.getX(), leafRoom.getX() + leafRoom.getW(), leafRoom.getY() + leafRoom.getH(), leafRoom.getY() + leafRoom.getH() + 1);
                     leafRoom.setH(leafRoom.getH() + 1);
                 }
 
-                // if position is greater than 2 times hallwayWidth
+                // if hallways on west side greater than 2 times hallwayWidth
                 if (wallCounts[3] > 2 * hallwayWidth)
                 {
                     ExtraTools.fillSector(tileMap, -1, leafRoom.getX() - 1, leafRoom.getX(), leafRoom.getY(), leafRoom.getY() + leafRoom.getH());
@@ -187,12 +190,13 @@ public class BSPTree
         {
             for (int c = pad; c < tileMap[r].length - pad; c++)
             {
-
                 if (makeSurroundCondition(r, c, -1))
                 {
+                    // If hallway and surrounding has room, become door
                     if (tileMap[r][c] == -2)
                         tileMap[r][c] = -4;
 
+                    // If empty and surrounding has room, become wall
                     if (tileMap[r][c] == 0)
                         tileMap[r][c] = -3;
                 }
@@ -225,14 +229,7 @@ public class BSPTree
         int endX = (int)end.getCenter().getX(); // center
         int endY = (int)end.getCenter().getY();
 
-        ExtraTools.fillSector(tileMap, -98, endX - 1, endX + 2, endY - 1, endY + 2); // fill sector
-
-        Room test = root.getLeaves().get(0).getRoom();
-
-        int centerX = (int)spawn.getCenter().getX();
-        int centerY = (int)spawn.getCenter().getY();
-
-        tileMap[centerY][centerX] = -99; // set ctr position on tile map to -99
+        ExtraTools.fillSector(tileMap, -98, endX - 1, endX + 2, endY - 1, endY + 2); // fill exit tiles
     }
 
 
