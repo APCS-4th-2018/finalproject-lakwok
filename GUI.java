@@ -9,15 +9,20 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
 
 /**
  * GUI - The main driver class for the JavaFX application
@@ -39,7 +44,7 @@ public class GUI extends Application
      * @param stage Main stage the JavaFX application uses
      */
     @Override
-    public void start(Stage stage)
+    public void start(Stage stage) throws Exception
     {
         // Local Variables
         Scene menuScene, dungeonScene, helpScene;
@@ -49,6 +54,8 @@ public class GUI extends Application
         menuScene = new Scene(mainGroup, 1000, 800);
         menuScene.getStylesheets().add("GUI.css");
 
+        StackPane stackPane = new StackPane();
+
         // VBox instantiation
         VBox mainVBox = new VBox();
         mainVBox.setLayoutY(300);
@@ -57,6 +64,8 @@ public class GUI extends Application
 
         // Instantiate canvas
         Canvas menuCanvas = new Canvas(1000, 800);
+        GraphicsContext menuGc = menuCanvas.getGraphicsContext2D();
+        menuGc.drawImage(new Image("JokeTitleScreen.png"), 0, 0, 1000, 800);
 
         // Dungeon Scene
         BSPTree tree = new BSPTree(100, 100);
@@ -140,10 +149,9 @@ public class GUI extends Application
             }
         });
 
-
-        mainVBox.getChildren().addAll(playButton, helpButton, quitButton, menuCanvas);
-        mainGroup.getChildren().add(mainVBox);
-
+        mainVBox.getChildren().addAll(playButton, helpButton, quitButton);
+        stackPane.getChildren().addAll(menuCanvas, mainVBox);
+        mainGroup.getChildren().addAll(stackPane);
 
         // Character Handling
         Point spawn = tree.getRoot().getLeaves().get(0).getRoom().getCenter();
@@ -238,7 +246,8 @@ public class GUI extends Application
 
         mapLayer.setTranslateX(mc.getX());
         mapLayer.setTranslateY(mc.getY());
-
+        charLayer.setTranslateX(mc.getX());
+        charLayer.setTranslateY(mc.getY());
         projectiles.setTranslateX(mc.getX());
         projectiles.setTranslateY(mc.getY());
 
@@ -249,9 +258,12 @@ public class GUI extends Application
             @Override
             public void handle(long now)
             {
+
                 if (!mc.gameOver())
                 {
                     hpBar.setProgress((double) mc.getCurrHp() / mc.getMaxHp());
+
+                    gc.clearRect(mc.getX(), mc.getY(), 32, 32);
 
                     for (Bullet b : mc.getBulletsFired())
                     {
@@ -287,6 +299,8 @@ public class GUI extends Application
                         mc.move('E', delta);
                     }
 
+                    gc.fillRect(mc.getX(), mc.getY(), 32, 32);
+
                     mapLayer.setTranslateX(camX);
                     mapLayer.setTranslateY(camY);
                     charLayer.setTranslateX(camX);
@@ -299,7 +313,6 @@ public class GUI extends Application
                 else
                 {
                     this.stop();
-
                 }
             }
         };

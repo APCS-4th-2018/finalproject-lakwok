@@ -3,6 +3,11 @@ import javafx.scene.input.MouseEvent;
 
 import java.util.ArrayList;
 
+/**
+ * Bullet - A class simulating projectiles shot by the character
+ * @author Andrew Wang
+ * @version June 6, 2019
+ */
 public class Bullet
 {
     private BSPTree bspTree;
@@ -89,12 +94,14 @@ public class Bullet
     * launch() - Launches a bullet on click
     * @param event mouse click
     */
-    public void launch(MouseEvent event)
+    public void launch(double charx, double chary, MouseEvent event)
     {
+        System.out.println("Event X: " + event.getX() + " Event Y: " + event.getY());
+
         visible = true;
 
-        double diffx = event.getX() - this.x;
-        double diffy = event.getY() - this.y;
+        double diffx = event.getX() - charx;
+        double diffy = event.getY() - chary;
 
         direction =  Math.atan2(diffy, diffx);
 

@@ -130,7 +130,9 @@ public class Character extends Movable
     {
         Bullet temp = new Bullet(bspTree, x, y, 15, 10);
         bulletsFired.add(temp);
-        temp.launch(event);
+
+        System.out.println("Char X: " + x + " Char Y: " + y);
+        temp.launch(x, y, event);
     }
 
     /**
