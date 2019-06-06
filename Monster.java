@@ -65,35 +65,30 @@ public class Monster extends Movable
         double newX = x;
         double newY = y;
 
+        // Based on direction, test new position
         switch (direction)
         {
             case 'N':
                 newY -= delta;
 
-                //if (newY < bound.getY()) newY = y;
-
                 break;
             case 'S':
                 newY += delta;
-
-                //if (newY > bound.getY() + bound.getH() - 1) newY = y;
 
                 break;
             case 'W':
                 newX -= delta;
 
-                //if (newX < bound.getX()) newX = x;
-
                 break;
             case 'E':
                 newX += delta;
 
-                //if (newX > bound.getX() + bound.getW() - 1) newX = x;
 
             default:
                 break;
         }
 
+        // update position (collisions still not implemented)
         x = newX;
         y = newY;
     }
