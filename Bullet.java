@@ -15,6 +15,14 @@ public class Bullet
     private double y;
     private int damage;
 
+    /**
+    * Bullet() - Constructor for the Bullet class
+    * @param tree BSPTree for the bullet
+    * @param xPos initial x coordinate
+    * @param yPos initial y coordinate
+    * @param spd initial speed
+    * @param dmg initial damage done
+    */
     public Bullet(BSPTree tree, double xPos, double yPos, int spd, int dmg)
     {
         bspTree = tree;
@@ -28,22 +36,37 @@ public class Bullet
         visible = false;
     }
 
+    /**
+    * getX() - Returns the x coordinate
+    * @return x coordinate
+    */
     public double getX()
     {
         return x;
     }
 
+    /**
+    * getY() - Returns the y coordinate
+    * @return y coordinate
+    */
     public double getY()
     {
         return y;
     }
 
 
+    /**
+    * getBounds() - Returns a rectangle with the current bounds
+    * @return rectangle with the current bounds
+    */
     public Rectangle2D getBounds()
     {
         return new Rectangle2D(x, y, 16, 16);
     }
 
+    /**
+    * update() - Update the speed
+    */
     public void update()
     {
         x += Math.cos(direction) * speed;
@@ -62,6 +85,10 @@ public class Bullet
             visible = false;
     }
 
+    /**
+    * launch() - Launches a bullet on click
+    * @param event mouse click
+    */
     public void launch(MouseEvent event)
     {
         visible = true;
