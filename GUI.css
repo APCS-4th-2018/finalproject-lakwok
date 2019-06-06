@@ -1,0 +1,21 @@
+@font-face {
+    font-family: EIGHTBIT;
+    src: url("EIGHTBIT.TTF");
+}
+
+#sand-brown {
+    -fx-background-color:
+            #000000,
+            linear-gradient(#ead369, #8f6f44),
+            linear-gradient(#b7874c, #75522e),
+            linear-gradient(#ab6d40, #68442c);
+    -fx-background-insets: 0,1,2,3;
+    -fx-background-radius: 3,2,2,2;
+    -fx-padding: 12 60 12 60;
+    -fx-text-fill: white;
+    -fx-font-size: 32px;
+}
+#sand-brown Text {
+    -fx-font-family: EIGHTBIT;
+    -fx-effect: dropshadow( one-pass-box , rgba(0,0,0,0.8) , 0, 0.0 , 0 , 1);
+}
