@@ -1,5 +1,11 @@
 import java.awt.*;
 
+/**
+ * Room - A class to create dungeon rooms
+ *
+ * @author Andrew Wang
+ * @version June 6, 2019
+ */
 public class Room
 {
     private final int PADDING = 2;

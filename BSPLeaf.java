@@ -1,6 +1,12 @@
 import java.awt.*;
 import java.util.ArrayList;
 
+/**
+ * BSPLeaf - A tree node of the BSPTree class, which allows for natural looking dungeon generation
+ *
+ * @author Andrew Wang
+ * @version June 6, 2019
+ */
 public class BSPLeaf
 {
     // Constants

@@ -1,5 +1,11 @@
 import javafx.geometry.Rectangle2D;
 
+/**
+ * Monster - A class meant to simulate enemies in the dungeon
+ *
+ * @author Andrew Wang and Tristan Pham
+ * @version June 6, 2019
+ */
 public class Monster extends Movable
 {
     private final int WIDTH = 32, HEIGHT = 32;

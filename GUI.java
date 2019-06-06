@@ -19,6 +19,12 @@ import javafx.stage.Stage;
 
 import java.awt.*;
 
+/**
+ * GUI - The main driver class for the JavaFX application
+ *
+ * @author Andrew Wang
+ * @version June 6, 2019
+ */
 public class GUI extends Application
 {
     public final static int TILE_WIDTH = 32;

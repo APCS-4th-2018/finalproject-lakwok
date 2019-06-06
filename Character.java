@@ -4,6 +4,12 @@ import java.util.ArrayList;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Rectangle;
 
+/**
+ * Character - A class for the main character of the game
+ *
+ * @author Andrew Wang
+ * @version June 6, 2019
+ */
 public class Character extends Movable
 {
     private BSPTree bspTree;
