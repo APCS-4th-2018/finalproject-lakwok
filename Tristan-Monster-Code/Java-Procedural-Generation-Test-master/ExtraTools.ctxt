@@ -1,0 +1,13 @@
+#BlueJ class context
+comment0.target=ExtraTools
+comment1.params=lower\ higher
+comment1.target=int\ randomRange(int,\ int)
+comment2.params=
+comment2.target=boolean\ randomBoolean()
+comment3.params=map\ fill\ x1\ x2\ y1\ y2
+comment3.target=void\ fillSector(int[][],\ int,\ int,\ int,\ int,\ int)
+comment4.params=map\ rm\ direction
+comment4.target=java.lang.Integer\ maxConsecTile(int[][],\ Room,\ char)
+comment5.params=map\ rm
+comment5.target=int[]\ getRoomSurroundings(int[][],\ Room)
+numComments=6

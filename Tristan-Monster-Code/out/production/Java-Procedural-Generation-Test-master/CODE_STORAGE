@@ -1,0 +1,319 @@
+// oldadjust
+public void adjustMap(int hallwayWidth)
+    {
+        int repeat = hallwayWidth + 10;
+
+        while (repeat > 0)
+        {
+            for (BSPLeaf leaf : root.getLeaves())
+            {
+                Room temp = leaf.getRoom();
+
+                int consecDoor = 0;
+
+                // Check top wall
+                for (int x = temp.getX() - 1; x < temp.getX() + temp.getW() + 1; x++)
+                {
+                    if (tileMap[temp.getY() - 1][x] == -2)
+                    {
+                        while (x < temp.getX() + temp.getW() && tileMap[temp.getY() - 1][x + 1] == -2)
+                            consecDoor++;
+
+                        if ()
+                    }
+                }
+
+                if (consecDoor > hallwayWidth)
+                    temp.setY(temp.getY() + 1);
+
+
+                // Check bottom wall
+                consecDoor = 0;
+
+                for (int x = temp.getX() - 1; x < temp.getX() + temp.getW() + 1; x++)
+                {
+                    if (tileMap[temp.getY() + temp.getH()][x] == -2)
+                        consecDoor++;
+                }
+
+                if (consecDoor > hallwayWidth)
+                    temp.setY(temp.getY() - 1);
+
+                // Check left wall
+                consecDoor = 0;
+
+                for (int y = temp.getY() - 1; y < temp.getY() + temp.getH() + 1; y++)
+                {
+                    if (tileMap[y][temp.getX() - 1] == -2);
+                    consecDoor ++;
+                }
+
+                if (consecDoor > hallwayWidth)
+                    temp.setX(temp.getX() - 1);
+
+                // Check right wall
+                consecDoor = 0;
+
+                for (int y = temp.getY() - 1; y < temp.getY() + temp.getH() + 1; y++)
+                {
+                    if (tileMap[y][temp.getX() + temp.getW() + 1] == -2);
+                    consecDoor ++;
+                }
+
+                if (consecDoor > hallwayWidth)
+                    temp.setX(temp.getX() + 1);
+            }
+
+            repeat -= 1;
+        }
+    }
+
+
+
+// limitsplit
+
+public void limitsplit(int recur)
+    {
+        BSPLeaf l, r;
+        int splitOffset;
+        boolean splitH;
+
+        if (recur > 0)
+        {
+            splitH = ExtraTools.randomBoolean();
+
+            if (w / h >= 1.25)
+                splitH = false;
+
+            if (h / w >= 1.25)
+                splitH = true;
+
+            if (splitH)
+            {
+                int oldy = y;
+                int oldh = h;
+
+                splitOffset = ExtraTools.randomRange(MIN_LEAF_SIZE, oldh - MIN_LEAF_SIZE);
+
+                l = new BSPLeaf(x, y, w, splitOffset);
+                r = new BSPLeaf(x, y + splitOffset, w, h - splitOffset);
+
+
+                /**
+                while ((double)l.getH() / l.getW() < H_DISCARD_RATIO ||
+                       (double)r.getH() / r.getW() < H_DISCARD_RATIO)
+                {
+                    System.out.println(recur + ": horizontal split discard || L: " + l.getW() + " " + l.getH() + " || R: " + r.getW() + " " + r.getH());
+
+                    splitOffset = ExtraTools.randomRange(MIN_LEAF_SIZE, oldh - MIN_LEAF_SIZE);
+
+                    l.setH(splitOffset);
+                    r.setY(oldy + splitOffset);
+                    r.setH(oldh - splitOffset);
+                }
+                 */
+            }
+            else
+            {
+                int oldx = x;
+                int oldw = w;
+
+                splitOffset = ExtraTools.randomRange(MIN_LEAF_SIZE, oldw - MIN_LEAF_SIZE);
+
+                l = new BSPLeaf(x, y, splitOffset, h);
+                r = new BSPLeaf(x + splitOffset, y, w - splitOffset, h);
+
+                /**
+                while ((double)l.getW() / l.getH() < V_DISCARD_RATIO ||
+                       (double)r.getW() / r.getH() < V_DISCARD_RATIO)
+                {
+                    System.out.println(recur + ": vertical split discard || L: " + l.getW() + " " + l.getH() + " || R: " + r.getW() + " " + r.getH());
+
+                    splitOffset = ExtraTools.randomRange(MIN_LEAF_SIZE, oldw - MIN_LEAF_SIZE);
+
+                    l.setW(splitOffset);
+                    r.setX(oldx + splitOffset);
+                    r.setW(oldw - splitOffset);
+                }
+                 */
+            }
+
+            left = l;
+            right = r;
+
+            left.limitsplit(recur - 1);
+            right.limitsplit(recur - 1);
+        }
+    }
+
+
+
+###############################
+
+public SUPEROLDAPPROACH.DungeonTree()
+{
+    leaves = new ArrayList<SUPEROLDAPPROACH.DungeonLeaf>();
+    leaves.add(new SUPEROLDAPPROACH.DungeonLeaf(0, 0, DUNGEON_LENGTH, DUNGEON_LENGTH));
+
+    boolean hasSplit = true;
+
+    while (hasSplit)
+    {
+        hasSplit = false;
+
+        for (int i = 0; i < leaves.size(); i++)
+        {
+            SUPEROLDAPPROACH.DungeonLeaf leaf = leaves.get(i);
+
+            if (leaf.getLeft() == null && leaf.getRight() == null)
+            {
+                if ((leaf.getWidth() > MAX_LENGTH || leaf.getHeight() > MAX_LENGTH) &&
+                    leaf.split())
+                {
+                    leaves.add(leaf.getLeft());
+                    leaves.add(leaf.getRight());
+                    hasSplit = true;
+                }
+            }
+        }
+    }
+}
+
+public boolean split()
+{
+    Random rand = new Random();
+
+    boolean ret = false;
+
+    if (left == null && right == null)
+    {
+        boolean splitH = rand.nextBoolean();
+
+        if ((double)width / height >= 1.25)
+            splitH = false;
+        if ((double)height / width >= 1.25)
+            splitH = true;
+
+        int maxLen = (splitH ? height : width) - MIN_LEAF_SIZE;
+        int splitOffset = MIN_LEAF_SIZE + (maxLen - MIN_LEAF_SIZE < 1 ? 0 : rand.nextInt(maxLen - MIN_LEAF_SIZE));
+
+        if (splitH)
+        {
+            left = new SUPEROLDAPPROACH.DungeonLeaf(xPos, yPos, width, splitOffset);
+            right = new SUPEROLDAPPROACH.DungeonLeaf(xPos, yPos + splitOffset, width, height - splitOffset);
+        }
+        else
+        {
+            left = new SUPEROLDAPPROACH.DungeonLeaf(xPos, yPos, splitOffset, height);
+            right = new SUPEROLDAPPROACH.DungeonLeaf(xPos + splitOffset, yPos, width - splitOffset, height);
+        }
+
+        ret = true;
+    }
+
+    return ret;
+}
+
+
+
+
+public void updateMap()
+{
+    int num = 1;
+
+    for (SUPEROLDAPPROACH.DungeonLeaf leaf : leaves)
+    {
+        for (int r = 0; r < leaf.getHeight(); r++)
+        {d
+            for (int c = 0; c < leaf.getWidth(); c++)
+            {
+                map[r][c] = num;
+            }
+        }
+
+        num++;
+    }
+}
+
+public void drawMap()
+{
+    for (int r = 0; r < map.length; r++)
+    {
+        for (int c = 0; c < map[r].length; c++)
+        {
+            System.out.print(Format.left(map[r][c], 4));
+        }
+        System.out.println();
+    }
+}
+
+
+// DUNGEONLEAF
+
+import java.util.ArrayList;
+import java.util.Random;
+
+public class SUPEROLDAPPROACH.DungeonLeaf
+{
+    private final int MIN_LEAF_SIZE = 5;
+    private int xPos, yPos, width, height;
+
+    private OLDAPPROACH.Room room;
+    private ArrayList<SUPEROLDAPPROACH.Hallway> hallways = new ArrayList<SUPEROLDAPPROACH.Hallway>();
+
+    private SUPEROLDAPPROACH.DungeonLeaf left, right;
+
+    public SUPEROLDAPPROACH.DungeonLeaf(int x, int y, int w, int h)
+    {
+        xPos = x;
+        yPos = y;
+        width = w;
+        height = h;
+    }
+
+    public SUPEROLDAPPROACH.DungeonLeaf getLeft()
+    {
+        return left;
+    }
+
+    public SUPEROLDAPPROACH.DungeonLeaf getRight()
+    {
+        return right;
+    }
+
+    public int getWidth()
+    {
+        return width;
+    }
+
+    public int getHeight()
+    {
+        return height;
+    }
+
+    public ArrayList<SUPEROLDAPPROACH.DungeonLeaf> getLeaves()
+    {
+        ArrayList<SUPEROLDAPPROACH.DungeonLeaf> leaves = new ArrayList<SUPEROLDAPPROACH.DungeonLeaf>();
+
+        if (left != null && right != null)
+        {
+            for (SUPEROLDAPPROACH.DungeonLeaf leaf : left.getLeaves())
+                leaves.add(leaf);
+            for (SUPEROLDAPPROACH.DungeonLeaf leaf : right.getLeaves())
+                leaves.add(leaf);
+        }
+
+
+    }
+
+    public boolean split()
+    {
+        return true;
+    }
+
+
+    public void update()
+    {
+
+    }
+}

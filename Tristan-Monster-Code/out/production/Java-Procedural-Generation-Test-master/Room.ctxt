@@ -1,0 +1,23 @@
+#BlueJ class context
+comment0.target=Room
+comment1.params=leaf
+comment1.target=Room(BSPLeaf)
+comment10.params=h
+comment10.target=void\ setH(int)
+comment2.params=
+comment2.target=int\ getX()
+comment3.params=
+comment3.target=int\ getY()
+comment4.params=
+comment4.target=int\ getW()
+comment5.params=
+comment5.target=int\ getH()
+comment6.params=
+comment6.target=java.awt.Point\ getCenter()
+comment7.params=x
+comment7.target=void\ setX(int)
+comment8.params=y
+comment8.target=void\ setY(int)
+comment9.params=w
+comment9.target=void\ setW(int)
+numComments=11

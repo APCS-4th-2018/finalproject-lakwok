@@ -1,0 +1,9 @@
+#BlueJ class context
+comment0.target=MonsterRoom
+comment1.params=leaf\ numMonsters
+comment1.target=MonsterRoom(BSPLeaf,\ int)
+comment2.params=
+comment2.target=boolean\ isCleared()
+comment3.params=
+comment3.target=java.util.ArrayList\ getMonsters()
+numComments=4

@@ -1,0 +1,9 @@
+#BlueJ class context
+comment0.target=Monster
+comment1.params=x\ y\ lv\ hp\ dmg\ spd
+comment1.target=Monster(double,\ double,\ int,\ int,\ int,\ int)
+comment2.params=c
+comment2.target=void\ attack(Character)
+comment3.params=c
+comment3.target=void\ trackPlayer(Character)
+numComments=4
