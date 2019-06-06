@@ -205,6 +205,7 @@ public class BSPLeaf
                 {
                     splitOffset = ExtraTools.randomRange(MIN_LEAF_SIZE, h - MIN_LEAF_SIZE); // gets random range
 
+                    // Split leaf at splitOffset
                     l = new BSPLeaf(x, y, w, splitOffset);
                     r = new BSPLeaf(x, y + splitOffset, w, h - splitOffset);
 
@@ -224,6 +225,7 @@ public class BSPLeaf
                 {
                     splitOffset = ExtraTools.randomRange(MIN_LEAF_SIZE, w - MIN_LEAF_SIZE); // get random range
 
+                    // Split leaf at splitOffset
                     l = new BSPLeaf(x, y, splitOffset, h);
                     r = new BSPLeaf(x + splitOffset, y, w - splitOffset, h);
 
@@ -237,6 +239,7 @@ public class BSPLeaf
                 }
             }
 
+            // Reassign left and right
             left = l;
             right = r;
 
