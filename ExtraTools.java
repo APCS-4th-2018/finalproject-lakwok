@@ -1,15 +1,28 @@
 public class ExtraTools
 {
+    /**
+    * randomRange() - Returns a random number from a specified range
+    * @param lower lower bound of range
+    * @param higher upper bound of rang
+    * @return random number from the range given by the lower and upper bounds
+    */
     public static int randomRange(int lower, int higher)
     {
         return (int)(Math.random() * (higher - lower + 1)) + lower;
     }
 
+    /**
+    * randomBoolean() - Returns a random boolean
+    * @return random boolean
+    */
     public static boolean randomBoolean()
     {
         return (Math.random() < 0.5);
     }
 
+    /**
+    * fillSector() - Fills a specified sector on the map matrix
+    */
     public static void fillSector(int[][] map, int fill, int x1, int x2, int y1, int y2)
     {
         for (int x = x1; x < x2; x++)
@@ -90,6 +103,10 @@ public class ExtraTools
         return maxConsec;
     }
 
+    /**
+    * getRoomSurroundings() - Returns a room surrounding matrix
+    * @return room surrounding matrix
+    */
     public static int[] getRoomSurroundings(int[][] map, Room rm)
     {
         int[] counts = {maxConsecTile(map, rm, 'N'),
