@@ -21,6 +21,8 @@ import java.awt.*;
 
 public class GUI extends Application
 {
+    public final static int TILE_WIDTH = 32;
+
     // Instance Variable Declarations
     private boolean camUp, camDown, camLeft, camRight;
     private double camX = 0, camY = 0, camW = 800, camH = 800;
@@ -60,7 +62,10 @@ public class GUI extends Application
         // generate dungeon
         Canvas mapLayer = drawDungeon(tree, 0);
         Canvas charLayer = new Canvas(mapLayer.getWidth(), mapLayer.getHeight());
-        dungeonGroup.getChildren().addAll(mapLayer, charLayer);
+        Canvas projectiles = new Canvas(mapLayer.getWidth(), mapLayer.getHeight());
+
+        dungeonGroup.getChildren().addAll(mapLayer, charLayer, projectiles);
+
         dungeonScene = new Scene(dungeonGroup, 1000, 800);
 
         // Main Scene cont.
@@ -136,7 +141,7 @@ public class GUI extends Application
 
         // Character Handling
         Point spawn = tree.getRoot().getLeaves().get(0).getRoom().getCenter();
-        Character mc = new Character(tree, spawn.getX() * Room.TILE_WIDTH, spawn.getY() * Room.TILE_WIDTH, 5, 100, 10);
+        Character mc = new Character(tree, spawn.getX() * TILE_WIDTH, spawn.getY() * TILE_WIDTH, 5, 100, 10);
 
         ProgressBar hpBar = new ProgressBar();
         hpBar.setLayoutX(15);
@@ -148,10 +153,10 @@ public class GUI extends Application
         dungeonGroup.getChildren().add(hpBar);
 
         GraphicsContext gc = charLayer.getGraphicsContext2D();
-
+        GraphicsContext projgc = projectiles.getGraphicsContext2D();
 
         gc.setFill(Color.AQUAMARINE);
-        gc.fillRect(mc.getX(), mc.getY(), 16, 16);
+        gc.fillRect(mc.getX(), mc.getY(), 32, 32);
 
         dungeonScene.setOnKeyPressed(new EventHandler<KeyEvent>()
         {
@@ -216,8 +221,21 @@ public class GUI extends Application
         });
 
 
+        dungeonScene.setOnMouseClicked(new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent event)
+            {
+                mc.attack(event);
+            }
+        });
+
         mapLayer.setTranslateX(mc.getX());
         mapLayer.setTranslateY(mc.getY());
+
+        projectiles.setTranslateX(mc.getX());
+        projectiles.setTranslateY(mc.getY());
+
 
         AnimationTimer animationTimer = new AnimationTimer()
         {
@@ -229,7 +247,15 @@ public class GUI extends Application
                 {
                     hpBar.setProgress((double) mc.getCurrHp() / mc.getMaxHp());
 
-                    double delta = Room.TILE_WIDTH / 4;
+                    for (Bullet b : mc.getBulletsFired())
+                    {
+                        projgc.clearRect(b.getX(), b.getY(), 16, 16);
+                        b.update();
+                        projgc.setFill(Color.GOLD);
+                        projgc.fillRect(b.getX(), b.getY(), 16, 16);
+                    }
+
+                    double delta = TILE_WIDTH / 4;
 
                     if (camUp)
                     {
@@ -255,8 +281,14 @@ public class GUI extends Application
                         mc.move('E', delta);
                     }
 
-                    charLayer.setTranslateX(mc.getX());
-                    charLayer.setTranslateY(mc.getY());
+                    mapLayer.setTranslateX(camX);
+                    mapLayer.setTranslateY(camY);
+                    charLayer.setTranslateX(camX);
+                    charLayer.setTranslateY(camY);
+                    projectiles.setTranslateX(camX);
+                    projectiles.setTranslateY(camY);
+
+
                 }
                 else
                 {
@@ -289,7 +321,7 @@ public class GUI extends Application
         int x = initX;
         int y = 0;
 
-        Canvas cnv = new Canvas(btree.getDungeonWidth() * Room.TILE_WIDTH, btree.getDungeonHeight() * Room.TILE_WIDTH);
+        Canvas cnv = new Canvas(btree.getDungeonWidth() * TILE_WIDTH, btree.getDungeonHeight() * TILE_WIDTH);
         GraphicsContext gc = cnv.getGraphicsContext2D();
 
         int[][] map = btree.getTileMap();
@@ -303,38 +335,38 @@ public class GUI extends Application
                 {
                     case -1:
                         gc.setFill(Color.BLUE);
-                        gc.fillRect(x, y, Room.TILE_WIDTH, Room.TILE_WIDTH);
+                        gc.fillRect(x, y, TILE_WIDTH, TILE_WIDTH);
                         break;
                     case -2:
                         gc.setFill(Color.BLACK);
-                        gc.fillRect(x, y, Room.TILE_WIDTH, Room.TILE_WIDTH);
+                        gc.fillRect(x, y, TILE_WIDTH, TILE_WIDTH);
                         break;
                     case -3:
                         gc.setFill(Color.LIGHTBLUE);
-                        gc.fillRect(x, y, Room.TILE_WIDTH, Room.TILE_WIDTH);
+                        gc.fillRect(x, y, TILE_WIDTH, TILE_WIDTH);
                         break;
                     case -4:
                         gc.setFill(Color.RED);
-                        gc.fillRect(x, y, Room.TILE_WIDTH, Room.TILE_WIDTH);
+                        gc.fillRect(x, y, TILE_WIDTH, TILE_WIDTH);
                         break;
                     case -98:
                         gc.setFill(Color.ROSYBROWN);
-                        gc.fillRect(x, y, Room.TILE_WIDTH, Room.TILE_WIDTH);
+                        gc.fillRect(x, y, TILE_WIDTH, TILE_WIDTH);
                         break;
                     case -99:
                         gc.setFill(Color.LIGHTGREEN);
-                        gc.fillRect(x, y, Room.TILE_WIDTH, Room.TILE_WIDTH);
+                        gc.fillRect(x, y, TILE_WIDTH, TILE_WIDTH);
                         break;
                     case -10:
                         gc.setFill(Color.GRAY);
-                        gc.fillRect(x, y, Room.TILE_WIDTH, Room.TILE_WIDTH);
+                        gc.fillRect(x, y, TILE_WIDTH, TILE_WIDTH);
                         break;
 
                 }
-                x += Room.TILE_WIDTH;
+                x += TILE_WIDTH;
             }
             x = initX;
-            y += Room.TILE_WIDTH;
+            y += TILE_WIDTH;
         }
 
         return cnv;

@@ -1,5 +1,9 @@
+import javafx.geometry.Rectangle2D;
+
 public class Monster extends Movable
 {
+    private final int WIDTH = 32, HEIGHT = 32;
+
     private int level, health, damage, movespeed;
     private boolean hasLoot;
 
@@ -12,6 +16,16 @@ public class Monster extends Movable
         movespeed = spd;
 
         hasLoot = ((int)(Math.random() * 10) < 3);
+    }
+
+    public void addHealth(int amount)
+    {
+        health += amount;
+    }
+
+    public Rectangle2D getHitBox()
+    {
+        return new Rectangle2D(x, y, WIDTH, HEIGHT);
     }
 
     @Override

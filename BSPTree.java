@@ -4,6 +4,9 @@ import java.awt.*;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
+/**
+ * BSPTree - A class implementing
+ */
 public class BSPTree
 {
     // Variable and Object Ref Declarations
