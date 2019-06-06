@@ -5,7 +5,7 @@ import javafx.scene.shape.Rectangle;
 public class Character extends Movable
 {
     private BSPTree bspTree;
-    private int level, health, damage;
+    private int level, currHp, maxHp, damage;
 
     private Room currentRoom;
 
@@ -16,8 +16,24 @@ public class Character extends Movable
         bspTree = tree;
 
         level = lv;
-        health = hp;
+        maxHp = hp;
+        currHp = hp;
         damage = dmg;
+    }
+
+    public int getCurrHp()
+    {
+        return currHp;
+    }
+
+    public int getMaxHp()
+    {
+        return maxHp;
+    }
+
+    public boolean gameOver()
+    {
+        return (currHp <= 0);
     }
 
     public void levelUp()
@@ -27,7 +43,10 @@ public class Character extends Movable
 
     public void addHealth(int amount)
     {
-        health += amount;
+        currHp += amount;
+
+        if (currHp > maxHp)
+            currHp = maxHp;
     }
 
     public void addDamage(int amount)
