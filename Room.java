@@ -19,6 +19,8 @@ public class Room
     */
     public Room(BSPLeaf leaf)
     {
+        // Randomly generate room dimensions based on dimensions of BSPLeaf
+        
         int leafX = leaf.getX();
         int leafY = leaf.getY();
         int leafW = leaf.getW();
