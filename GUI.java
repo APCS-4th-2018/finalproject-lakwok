@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -31,31 +32,14 @@ public class GUI extends Application
     @Override
     public void start(Stage stage)
     {
+        Scene menuScene, dungeonScene, helpScene;
 
 
-        // Dungeon Scene
-
-        BSPTree tree = new BSPTree(100, 100);
-        tree.loadMap();
-
-        Group dungeonGroup = new Group();
-
-        Canvas mapLayer = drawDungeon(tree, 0);
-        Canvas charLayer = new Canvas(mapLayer.getWidth(), mapLayer.getHeight());
-
-        dungeonGroup.getChildren().addAll(mapLayer, charLayer);
-
-        Scene dungeonScene = new Scene(dungeonGroup, 1000, 800);
-
-        // Help Screen
-
-        Group helpGroup = new Group();
-        Scene helpScene = new Scene(helpGroup, 1000, 800);
 
 
         // Main Menu
         Group mainGroup = new Group();
-        Scene menuScene = new Scene(mainGroup, 1000, 800);
+        menuScene = new Scene(mainGroup, 1000, 800);
 
         menuScene.getStylesheets().add("GUI.css");
 
@@ -66,8 +50,22 @@ public class GUI extends Application
 
         Canvas menuCanvas = new Canvas(1000, 800);
 
+        // Dungeon Scene
+        BSPTree tree = new BSPTree(100, 100);
+        tree.loadMap();
+
+        Group dungeonGroup = new Group();
+
+        Canvas mapLayer = drawDungeon(tree, 0);
+        Canvas charLayer = new Canvas(mapLayer.getWidth(), mapLayer.getHeight());
+
+        dungeonGroup.getChildren().addAll(mapLayer, charLayer);
+
+        dungeonScene = new Scene(dungeonGroup, 1000, 800);
+
+        // Main Scene cont.
         Button playButton = new Button("Play");
-        playButton.setId("rich-blue");
+        playButton.setId("sand-brown");
         playButton.setOnMouseClicked(new EventHandler<MouseEvent>()
         {
             @Override
@@ -77,9 +75,16 @@ public class GUI extends Application
             }
         });
 
-        Button helpButton = new Button("Help");
-        helpButton.setId("rich-blue");
-        helpButton.setOnMouseClicked(new EventHandler<MouseEvent>()
+
+        // Help Screen
+        Group helpGroup = new Group();
+        helpScene = new Scene(helpGroup, 1000, 800);
+
+        Label label = new Label("WASD to move\n\nArrow keys to move camera\n\nClick to shoot\n\n");
+
+        Button back = new Button("Back");
+        back.setId("sand-brown");
+        back.setOnMouseClicked(new EventHandler<MouseEvent>()
         {
             @Override
             public void handle(MouseEvent event)
@@ -88,8 +93,36 @@ public class GUI extends Application
             }
         });
 
+        VBox helpVBox = new VBox(label, back);
+        helpVBox.setAlignment(Pos.CENTER);
 
-        mainVBox.getChildren().addAll(playButton, helpButton, menuCanvas);
+        helpGroup.getChildren().addAll(helpVBox);
+
+        // Main scene cont.
+        Button helpButton = new Button("Help");
+        helpButton.setId("sand-brown");
+        helpButton.setOnMouseClicked(new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent event)
+            {
+                stage.setScene(helpScene);
+            }
+        });
+
+        Button quitButton = new Button("Quit");
+        quitButton.setId("sand-brown");
+        quitButton.setOnMouseClicked(new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent event)
+            {
+                System.exit(0);
+            }
+        });
+
+
+        mainVBox.getChildren().addAll(playButton, helpButton, quitButton, menuCanvas);
         mainGroup.getChildren().add(mainVBox);
 
 
@@ -100,8 +133,8 @@ public class GUI extends Application
         ProgressBar hpBar = new ProgressBar();
         hpBar.setLayoutX(15);
         hpBar.setLayoutY(15);
-        hpBar.setPrefHeight(25);
-        hpBar.setPrefWidth(150);
+        hpBar.setPrefHeight(50);
+        hpBar.setPrefWidth(250);
         hpBar.setProgress(1);
 
         dungeonGroup.getChildren().add(hpBar);
@@ -180,38 +213,48 @@ public class GUI extends Application
 
         AnimationTimer animationTimer = new AnimationTimer()
         {
+
             @Override
             public void handle(long now)
             {
-
-                double delta = Room.TILE_WIDTH / 4;
-
-                if (camUp)
+                if (!mc.gameOver())
                 {
-                    camY += delta;
-                    mc.move('N', delta);
-                }
+                    hpBar.setProgress((double) mc.getCurrHp() / mc.getMaxHp());
 
-                if (camDown)
+                    double delta = Room.TILE_WIDTH / 4;
+
+                    if (camUp)
+                    {
+                        camY += delta;
+                        mc.move('N', delta);
+                    }
+
+                    if (camDown)
+                    {
+                        camY -= delta;
+                        mc.move('S', delta);
+                    }
+
+                    if (camLeft)
+                    {
+                        camX += delta;
+                        mc.move('W', delta);
+                    }
+
+                    if (camRight)
+                    {
+                        camX -= delta;
+                        mc.move('E', delta);
+                    }
+
+                    charLayer.setTranslateX(mc.getX());
+                    charLayer.setTranslateY(mc.getY());
+                }
+                else
                 {
-                    camY -= delta;
-                    mc.move('S', delta);
-                }
+                    this.stop();
 
-                if (camLeft)
-                {
-                    camX += delta;
-                    mc.move('W', delta);
                 }
-
-                if (camRight)
-                {
-                    camX -= delta;
-                    mc.move('E', delta);
-                }
-
-                charLayer.setTranslateX(mc.getX());
-                charLayer.setTranslateY(mc.getY());
             }
         };
 
