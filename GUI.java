@@ -10,6 +10,10 @@ public class GUI extends Application
 {
     private final static int TILE_WIDTH = 16;
 
+    /**
+     *  Format and import the scene and stage
+     * @param Scene Import
+     */
     @Override
     public void start(Stage stage)
     {
@@ -33,7 +37,10 @@ public class GUI extends Application
     }
 
     // Helper
-
+    /**
+     * Creating the Dungeon by creating tiles via width/height case staements. Each title is filled by a specific color, based on the specific role/location of it
+     * @param Dungeon
+     */
     public Canvas drawDungeon(BSPTree btree, int initX)
     {
         int x = initX;
