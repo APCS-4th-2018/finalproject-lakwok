@@ -4,6 +4,12 @@ import java.awt.*;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
+/**
+ * BSPTree - A class implementing binary space partitioning to create natural looking dungeons
+ *
+ * @author Andrew Wang
+ * @version June 6, 2019
+ */
 public class BSPTree
 {
     // Variable and Object Ref Declarations

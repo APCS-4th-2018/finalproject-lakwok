@@ -1,8 +1,13 @@
 import java.awt.*;
 
+/**
+ * Room - A class to create dungeon rooms
+ *
+ * @author Andrew Wang
+ * @version June 6, 2019
+ */
 public class Room
 {
-    public final static int TILE_WIDTH = 16;
     private final int PADDING = 2;
 
     private int x, y, w, h;

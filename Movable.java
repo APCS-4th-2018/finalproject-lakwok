@@ -1,3 +1,9 @@
+/**
+ * Movable - An abstract class objects that move can extend
+ *
+ * @author Andrew Wang
+ * @version June 6, 2019
+ */
 public abstract class Movable
 {
     // Variables-instance
