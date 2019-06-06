@@ -36,49 +36,81 @@ public class Room
     }
 
     /**
-    * getMonsters() - Returns ArrayList of monsters
-    * @return ArrayList of monsters
+    * getX() - Returns x coordinate
+    * @return x coordinate
     */
     public int getX()
     {
         return x;
     }
 
+    /**
+    * getY() - Returns y coordinate
+    * @return y coordinate
+    */
     public int getY()
     {
         return y;
     }
 
+    /**
+    * getW() - Returns width value
+    * @return width value
+    */
     public int getW()
     {
         return w;
     }
 
+    /**
+    * getH() - Returns height value
+    * @return height value
+    */
     public int getH()
     {
         return h;
     }
 
+    /**
+    * getH() - Returns center point
+    * @return center point
+    */
     public Point getCenter()
     {
         return center;
     }
 
+    /**
+    * setX() - Sets x coordinate
+    * @param x x coordinate to set
+    */
     public void setX(int x)
     {
         this.x = x;
     }
 
+    /**
+    * setY() - Sets y coordinate
+    * @param y y coordinate to set
+    */
     public void setY(int y)
     {
         this.y = y;
     }
 
+    /**
+    * setW() - Sets width value
+    * @param w width value set
+    */
     public void setW(int w)
     {
         this.w = w;
     }
 
+    /**
+    * setH() - Sets height value
+    * @param h height value set
+    */
     public void setH(int h)
     {
         this.h = h;
