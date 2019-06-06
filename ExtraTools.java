@@ -32,10 +32,12 @@ public class ExtraTools
 
     private static Integer maxConsecTile(int[][] map, Room rm, char direction)
     {
+        // Variables
         int roomX = rm.getX(), roomY = rm.getY(), roomW= rm.getW(), roomH = rm.getH();
 
         int low = 0, high = 0, axis = 0;
 
+        // Seitch Case, switching on direction
         switch (direction)
         {
             case 'N':
@@ -64,6 +66,7 @@ public class ExtraTools
 
         int maxConsec = 0;
 
+        // loop until max
         for (int i = low; i <= high; i++)
         {
             if (direction == 'N' || direction == 'S')
