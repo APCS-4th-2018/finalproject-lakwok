@@ -7,10 +7,13 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.awt.*;
@@ -24,6 +27,8 @@ public class GUI extends Application
     @Override
     public void start(Stage stage)
     {
+
+
         // Dungeon Scene
 
         BSPTree tree = new BSPTree(100, 100);
@@ -38,15 +43,27 @@ public class GUI extends Application
 
         Scene dungeonScene = new Scene(dungeonGroup, 1000, 800);
 
+        // Help Screen
+
+        Group helpGroup = new Group();
+        Scene helpScene = new Scene(helpGroup, 1000, 800);
+
+
         // Main Menu
         Group mainGroup = new Group();
+        Scene menuScene = new Scene(mainGroup, 1000, 800);
+
+        menuScene.getStylesheets().add("GUI.css");
+
         VBox mainVBox = new VBox();
-        mainVBox.setLayoutY(200);
+        mainVBox.setLayoutY(300);
         mainVBox.setAlignment(Pos.CENTER);
-        mainVBox.setSpacing(100);
+        mainVBox.setSpacing(75);
 
         Canvas menuCanvas = new Canvas(1000, 800);
+
         Button playButton = new Button("Play");
+        playButton.setId("rich-blue");
         playButton.setOnMouseClicked(new EventHandler<MouseEvent>()
         {
             @Override
@@ -56,17 +73,37 @@ public class GUI extends Application
             }
         });
 
+        Button helpButton = new Button("Help");
+        helpButton.setId("rich-blue");
+        helpButton.setOnMouseClicked(new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent event)
+            {
+                stage.setScene(menuScene);
+            }
+        });
 
-        mainVBox.getChildren().addAll(playButton, menuCanvas);
+
+        mainVBox.getChildren().addAll(playButton, helpButton, menuCanvas);
         mainGroup.getChildren().add(mainVBox);
 
-        Scene menuScene = new Scene(mainGroup, 1000, 800);
 
         // Character Handling
         Point spawn = tree.getRoot().getLeaves().get(0).getRoom().getCenter();
         Character mc = new Character(tree, spawn.getX() * Room.TILE_WIDTH, spawn.getY() * Room.TILE_WIDTH, 5, 100, 10);
 
+        ProgressBar hpBar = new ProgressBar();
+        hpBar.setLayoutX(15);
+        hpBar.setLayoutY(15);
+        hpBar.setPrefHeight(25);
+        hpBar.setPrefWidth(150);
+        hpBar.setProgress(1);
+
+        dungeonGroup.getChildren().add(hpBar);
+
         GraphicsContext gc = charLayer.getGraphicsContext2D();
+
 
         gc.setFill(Color.AQUAMARINE);
         gc.fillRect(mc.getX(), mc.getY(), 16, 16);
