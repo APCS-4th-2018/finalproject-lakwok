@@ -21,6 +21,7 @@ import java.awt.*;
 
 public class GUI extends Application
 {
+    // Instance Variable Declarations
     private boolean camUp, camDown, camLeft, camRight;
     private double camX = 0, camY = 0, camW = 800, camH = 800;
 
@@ -32,6 +33,7 @@ public class GUI extends Application
     @Override
     public void start(Stage stage)
     {
+        // Local Variables
         Scene menuScene, dungeonScene, helpScene;
 
         // Main Menu
@@ -39,27 +41,30 @@ public class GUI extends Application
         menuScene = new Scene(mainGroup, 1000, 800);
         menuScene.getStylesheets().add("GUI.css");
 
+        // VBox instantiation
         VBox mainVBox = new VBox();
         mainVBox.setLayoutY(300);
         mainVBox.setAlignment(Pos.CENTER);
         mainVBox.setSpacing(75);
 
+        // Instantiate canvas
         Canvas menuCanvas = new Canvas(1000, 800);
 
         // Dungeon Scene
         BSPTree tree = new BSPTree(100, 100);
         tree.loadMap();
 
+        // Group for dungeonGroup
         Group dungeonGroup = new Group();
 
+        // generate dungeon
         Canvas mapLayer = drawDungeon(tree, 0);
         Canvas charLayer = new Canvas(mapLayer.getWidth(), mapLayer.getHeight());
-
         dungeonGroup.getChildren().addAll(mapLayer, charLayer);
-
         dungeonScene = new Scene(dungeonGroup, 1000, 800);
 
         // Main Scene cont.
+        // Play button
         Button playButton = new Button("Play");
         playButton.setId("sand-brown");
         playButton.setOnMouseClicked(new EventHandler<MouseEvent>()
@@ -77,9 +82,11 @@ public class GUI extends Application
         helpScene = new Scene(helpGroup, 1000, 800);
         helpScene.getStylesheets().add("GUI.css");
 
+        // labels
         Label label = new Label("WASD to move\n\nArrow keys to move camera\n\nClick to shoot\n\n");
         label.setLayoutX(400);
 
+        // back button
         Button back = new Button("Back");
         back.setId("sand-brown");
         back.setOnMouseClicked(new EventHandler<MouseEvent>()
@@ -98,6 +105,7 @@ public class GUI extends Application
         helpGroup.getChildren().addAll(helpVBox);
 
         // Main scene cont.
+        // Help button
         Button helpButton = new Button("Help");
         helpButton.setId("sand-brown");
         helpButton.setOnMouseClicked(new EventHandler<MouseEvent>()
@@ -109,6 +117,7 @@ public class GUI extends Application
             }
         });
 
+        // Quit button
         Button quitButton = new Button("Quit");
         quitButton.setId("sand-brown");
         quitButton.setOnMouseClicked(new EventHandler<MouseEvent>()
