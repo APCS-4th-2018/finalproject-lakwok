@@ -5,6 +5,11 @@ public class MonsterRoom extends Room
     private int numMonsters;
     private ArrayList<Monster> monsters;
 
+    /**
+    * MonsterRoom() - Constructor for MonsterRoom class
+    * @param leaf BSPLeaf to get coordinate positions and values from
+    * @param numMonsters Number of monsters
+    */
     public MonsterRoom(BSPLeaf leaf, int numMonsters)
     {
         super(leaf);
@@ -13,6 +18,10 @@ public class MonsterRoom extends Room
         this.monsters = new ArrayList<Monster>();
     }
 
+    /**
+    * getMonsters() - Returns ArrayList of monsters
+    * @return ArrayList of monsters
+    */
     public ArrayList<Monster> getMonsters()
     {
         return monsters;

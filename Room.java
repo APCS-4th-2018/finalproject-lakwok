@@ -13,6 +13,10 @@ public class Room
     private int x, y, w, h;
     private Point center;
 
+    /**
+    * Room() - Constructor for the Room class
+    * @param leaf the BSPLeaf to get position coodernates and values from
+    */
     public Room(BSPLeaf leaf)
     {
         int leafX = leaf.getX();
@@ -31,6 +35,10 @@ public class Room
         center = new Point(x + w/2, y + h/2);
     }
 
+    /**
+    * getMonsters() - Returns ArrayList of monsters
+    * @return ArrayList of monsters
+    */
     public int getX()
     {
         return x;
