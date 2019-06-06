@@ -26,8 +26,8 @@ public class GUI extends Application
 
 
     /**
-     *  Format and import the scene and stage
-     * @param Scene Import
+     * start() - Method containing the GUI's code
+     * @param stage Main stage the JavaFX application uses
      */
     @Override
     public void start(Stage stage)
@@ -270,9 +270,10 @@ public class GUI extends Application
     }
 
     // Helper
+
     /**
-     * Creating the Dungeon by creating tiles via width/height case staements. Each title is filled by a specific color, based on the specific role/location of it
-     * @param Dungeon
+     * drawDungeon() - Draws the dungeon's tiles
+     * @param btree BSPTree containing a loaded map to draw
      */
     public Canvas drawDungeon(BSPTree btree, int initX)
     {
