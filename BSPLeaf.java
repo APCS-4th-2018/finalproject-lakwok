@@ -3,11 +3,13 @@ import java.util.ArrayList;
 
 public class BSPLeaf
 {
+    // Constants
     private final int MIN_LEAF_SIZE = 20;
     private final int MAX_LEAF_SIZE = 30;
     private final double H_DISCARD_RATIO = 0.3;
     private final double V_DISCARD_RATIO = 0.3;
 
+    // Instance Variables
     private BSPLeaf left, right;
     private Room room;
     private int x, y, w, h;
@@ -17,16 +19,17 @@ public class BSPLeaf
     * BSPLeaf() - Constructor for BSPLeaf Class
     * @param x initial x coordinate
     * @param y initial y coordinate
-    * @param w initial w coordinate
-    * @param h initial h coordinate
+    * @param w initial w value
+    * @param h initial h value
     */
     public BSPLeaf(int x, int y, int w, int h)
     {
-        this.x = x;
-        this.y = y;
-        this.w = w;
-        this.h = h;
+        this.x = x; // x coordinate (x)
+        this.y = y; // y coordinate (y)
+        this.w = w; // w value (widh)
+        this.h = h; // h value (height)
 
+        // Calculates the center point from the coordinates and values given
         this.center = new Point(x + w/2, y + h/2);
     }
 
@@ -49,8 +52,8 @@ public class BSPLeaf
     }
 
     /**
-    * getW() - Returns the w coordinate
-    * @return w coordinate
+    * getW() - Returns the w value
+    * @return w value
     */
     public int getW()
     {
@@ -58,8 +61,8 @@ public class BSPLeaf
     }
 
     /**
-    * getH() - Returns the h coordinate
-    * @return h coordinate
+    * getH() - Returns the h value
+    * @return h value
     */
     public int getH()
     {
@@ -121,8 +124,8 @@ public class BSPLeaf
     }
 
     /**
-    * setW() - Sets the w coordinate
-    * @param w the w coordinate to be set
+    * setW() - Sets the w value
+    * @param w the w value to be set
     */
     public void setW(int w)
     {
@@ -130,8 +133,8 @@ public class BSPLeaf
     }
 
     /**
-    * setH() - Sets the h coordinate
-    * @param h the h coordinate to be set
+    * setH() - Sets the h value
+    * @param h the h value to be set
     */
     public void setH(int h)
     {
@@ -165,32 +168,41 @@ public class BSPLeaf
         room = r;
     }
 
+    /**
+    * split() - Splits the BSPLeaf's recursively
+    */
     public void split()
     {
+        // Declare Variables and Object References
         BSPLeaf l = null, r = null;
         int splitOffset;
         boolean splitH;
 
+        // If current BSPLeaf w or h greater than MAX_LEAF_SIZE
         if (this.w > MAX_LEAF_SIZE || this.h > MAX_LEAF_SIZE)
         {
-            splitH = ExtraTools.randomBoolean();
+            splitH = ExtraTools.randomBoolean(); // Random boolean value stored to splitH
 
+            // splitH false if w / h >= 1.25
             if ((double)w / h >= 1.25)
                 splitH = false;
 
+            // splitH true if h / w >= 1.25
             if ((double)h / w >= 1.25)
                 splitH = true;
 
+            // If splitH true
             if (splitH)
             {
-                if (h >= 2 * MIN_LEAF_SIZE)
+                // if height >= 2 * MIN_LEAF_SIZE
+                if (h >= 2 * MIN_LEAF_SIZE) // gen splitOffset
                 {
-                    splitOffset = ExtraTools.randomRange(MIN_LEAF_SIZE, h - MIN_LEAF_SIZE);
+                    splitOffset = ExtraTools.randomRange(MIN_LEAF_SIZE, h - MIN_LEAF_SIZE); // gets random range
 
                     l = new BSPLeaf(x, y, w, splitOffset);
                     r = new BSPLeaf(x, y + splitOffset, w, h - splitOffset);
 
-                    while (splitOffset < MIN_LEAF_SIZE && h - splitOffset < MIN_LEAF_SIZE)
+                    while (splitOffset < MIN_LEAF_SIZE && h - splitOffset < MIN_LEAF_SIZE) // while not valid keep regenerating
                     {
                         splitOffset = ExtraTools.randomRange(MIN_LEAF_SIZE, h - MIN_LEAF_SIZE);
 
@@ -199,16 +211,17 @@ public class BSPLeaf
                     }
                 }
             }
-            else
+            else // if splitH false
             {
+                // if width >= 2 * MIN_LEAF_SIZE
                 if (w >= 2 * MIN_LEAF_SIZE)
                 {
-                    splitOffset = ExtraTools.randomRange(MIN_LEAF_SIZE, w - MIN_LEAF_SIZE);
+                    splitOffset = ExtraTools.randomRange(MIN_LEAF_SIZE, w - MIN_LEAF_SIZE); // get random range
 
                     l = new BSPLeaf(x, y, splitOffset, h);
                     r = new BSPLeaf(x + splitOffset, y, w - splitOffset, h);
 
-                    while (splitOffset < MIN_LEAF_SIZE && w - splitOffset < MIN_LEAF_SIZE)
+                    while (splitOffset < MIN_LEAF_SIZE && w - splitOffset < MIN_LEAF_SIZE) // regenerate rand while invalid
                     {
                         splitOffset = ExtraTools.randomRange(MIN_LEAF_SIZE, w - MIN_LEAF_SIZE);
 
@@ -221,18 +234,24 @@ public class BSPLeaf
             left = l;
             right = r;
 
-            if (left != null)
+            if (left != null) // split left (recursive call) if left not null
                 left.split();
 
-            if (right != null)
+            if (right != null) // split right (recursivecall) if right not null
                 right.split();
         }
     }
 
+    /**
+    * getLeaves() - Returns an ArrayList of BSPLeaf's
+    * @return ArrayList of BSPLeaf's
+    */
     public ArrayList<BSPLeaf> getLeaves()
     {
+        // ArrayList
         ArrayList<BSPLeaf> leaves = new ArrayList<>();
 
+        // Make sure non-null, get leaves to add to ArrayList
         if (left != null || right != null)
         {
             if (left != null)
@@ -241,11 +260,13 @@ public class BSPLeaf
             if (right != null)
                 leaves.addAll(right.getLeaves());
         }
+        // Adds current BSPLeaf if no non-null
         else
         {
-            leaves.add(this);
+            leaves.add(this); // Add current if all null
         }
 
+        // Return the ArrayList
         return leaves;
     }
 }
