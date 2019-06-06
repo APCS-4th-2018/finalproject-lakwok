@@ -34,13 +34,9 @@ public class GUI extends Application
     {
         Scene menuScene, dungeonScene, helpScene;
 
-
-
-
         // Main Menu
         Group mainGroup = new Group();
         menuScene = new Scene(mainGroup, 1000, 800);
-
         menuScene.getStylesheets().add("GUI.css");
 
         VBox mainVBox = new VBox();
@@ -79,8 +75,10 @@ public class GUI extends Application
         // Help Screen
         Group helpGroup = new Group();
         helpScene = new Scene(helpGroup, 1000, 800);
+        helpScene.getStylesheets().add("GUI.css");
 
         Label label = new Label("WASD to move\n\nArrow keys to move camera\n\nClick to shoot\n\n");
+        label.setLayoutX(400);
 
         Button back = new Button("Back");
         back.setId("sand-brown");
@@ -95,6 +93,7 @@ public class GUI extends Application
 
         VBox helpVBox = new VBox(label, back);
         helpVBox.setAlignment(Pos.CENTER);
+        helpVBox.setSpacing(100);
 
         helpGroup.getChildren().addAll(helpVBox);
 
