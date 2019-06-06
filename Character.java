@@ -1,10 +1,13 @@
 import java.sql.Statement;
 import java.util.ArrayList;
+
+import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Rectangle;
 
 public class Character extends Movable
 {
     private BSPTree bspTree;
+    private ArrayList<Bullet> bulletsFired;
     private int level, currHp, maxHp, damage;
 
     private Room currentRoom;
@@ -14,6 +17,7 @@ public class Character extends Movable
         super(x, y);
 
         bspTree = tree;
+        bulletsFired = new ArrayList<Bullet>();
 
         level = lv;
         maxHp = hp;
@@ -29,6 +33,11 @@ public class Character extends Movable
     public int getMaxHp()
     {
         return maxHp;
+    }
+
+    public ArrayList<Bullet> getBulletsFired()
+    {
+        return bulletsFired;
     }
 
     public boolean gameOver()
@@ -68,19 +77,11 @@ public class Character extends Movable
         }
     }
 
-    public void attack()
+    public void attack(MouseEvent event)
     {
-        if (currentRoom instanceof MonsterRoom)
-        {
-            for (Monster m : ((MonsterRoom) currentRoom).getMonsters())
-            {
-                switch (this.getOrientation())
-                {
-                    case 'N':
-                        // START HERE TOMORROW FINISH IMPLEMENTING ATTACK
-                }
-            }
-        }
+        Bullet temp = new Bullet(bspTree, x, y, 15, 10);
+        bulletsFired.add(temp);
+        temp.launch(event);
     }
 
     @Override
@@ -96,19 +97,19 @@ public class Character extends Movable
         switch (direction)
         {
             case 'N':
-                if (map[(int)(y - delta) / Room.TILE_WIDTH][(int)x / Room.TILE_WIDTH] != -3)
+                if (map[(int)(y - delta) / GUI.TILE_WIDTH][(int)x / GUI.TILE_WIDTH] != -3)
                     y -= delta;
                 break;
             case 'S':
-                if (map[(int)(y + delta + Room.TILE_WIDTH - 3) / Room.TILE_WIDTH][(int)x / Room.TILE_WIDTH] != -3)
+                if (map[(int)(y + delta + GUI.TILE_WIDTH - 3) / GUI.TILE_WIDTH][(int)x / GUI.TILE_WIDTH] != -3)
                     y += delta;
                 break;
             case 'W':
-                if (map[(int)y / Room.TILE_WIDTH][(int)(x - delta) / Room.TILE_WIDTH] != -3)
+                if (map[(int)y / GUI.TILE_WIDTH][(int)(x - delta) / GUI.TILE_WIDTH] != -3)
                     x -= delta;
                 break;
             case 'E':
-                if (map[(int)y / Room.TILE_WIDTH][(int)(x + delta + Room.TILE_WIDTH - 3) / Room.TILE_WIDTH] != -3)
+                if (map[(int)y / GUI.TILE_WIDTH][(int)(x + delta + GUI.TILE_WIDTH - 3) / GUI.TILE_WIDTH] != -3)
                     x += delta;
                 break;
             default:
