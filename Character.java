@@ -89,19 +89,11 @@ public class Character extends Movable
     */
     public void addHealth(int amount)
     {
+        // Add health, if health above cap, cap at max hp
         currHp += amount;
 
         if (currHp > maxHp)
             currHp = maxHp;
-    }
-
-    /**
-    * addDamage() - Adds specified amount damage to the character
-    * @param amount the amount of damage to add to the character
-    */
-    public void addDamage(int amount)
-    {
-        damage += amount;
     }
 
     /**
@@ -112,11 +104,14 @@ public class Character extends Movable
     {
         for (BSPLeaf leaf : leaves)
         {
+            // For every room
             Room temp = leaf.getRoom();
 
+            // If character intersects the room's bounds
             if (temp.getX() < this.getX() && this.getX() < temp.getX() + temp.getW() &&
                 temp.getY() < this.getY() && this.getY() < temp.getY() + temp.getH())
             {
+                // Set currentRoom to this room
                 currentRoom = temp;
             }
         }
@@ -128,10 +123,11 @@ public class Character extends Movable
     */
     public void attack(MouseEvent event)
     {
+        // Create a new bullet and add to fired bullets
         Bullet temp = new Bullet(bspTree, x, y, 15, 10);
         bulletsFired.add(temp);
 
-        System.out.println("Char X: " + x + " Char Y: " + y);
+        // Launch the bullet
         temp.launch(x, y, event);
     }
 
@@ -154,18 +150,22 @@ public class Character extends Movable
         switch (direction)
         {
             case 'N':
+                // If no wall to north, move up
                 if (map[(int)(y - delta) / GUI.TILE_WIDTH][(int)x / GUI.TILE_WIDTH] != -3)
                     y -= delta;
                 break;
             case 'S':
+                // If no wall to south, move down
                 if (map[(int)(y + delta + GUI.TILE_WIDTH - 3) / GUI.TILE_WIDTH][(int)x / GUI.TILE_WIDTH] != -3)
                     y += delta;
                 break;
             case 'W':
+                // If no wall to west, move left
                 if (map[(int)y / GUI.TILE_WIDTH][(int)(x - delta) / GUI.TILE_WIDTH] != -3)
                     x -= delta;
                 break;
             case 'E':
+                // If no wall to east, move right
                 if (map[(int)y / GUI.TILE_WIDTH][(int)(x + delta + GUI.TILE_WIDTH - 3) / GUI.TILE_WIDTH] != -3)
                     x += delta;
                 break;
